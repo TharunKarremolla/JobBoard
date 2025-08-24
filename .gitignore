@@ -1,18 +1,32 @@
-
-
-venv
-
-
-# Ignore Python cache files
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.sqlite3
 
-# Ignore virtual environment
+# Virtual environment
 venv/
 env/
 
-# Ignore node modules
-node_modules/
+# Django
+db.sqlite3
+*.log
+*.pot
+*.pyc
 
-# Ignore environment variables
-.env
+# React / Node
+node_modules/
+build/
+dist/
+
+# System
+.DS_Store
+Thumbs.db
+
+# VSCode / IDE
+.vscode/
+.idea/
+
+# Git
+*.swp
