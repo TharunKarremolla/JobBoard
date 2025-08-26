@@ -13,8 +13,11 @@ SECRET_KEY = 'django-insecure-g6n(e618wz^#r32*$+3n(5&f1^nx&f(8ys(_3l#e(99w(u+qi$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    
+    "localhost",
+    "127.0.0.1"
+]
 
 # Application definition
 
@@ -27,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "app",
     "corsheaders",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -66,16 +70,18 @@ WSGI_APPLICATION = 'travel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb',
-        'USER' :'postgres',
-        'HOST' : 'localhost',
-        'PASSWORD' : '1234',
+        'NAME': 'mydb_krid',
+        'USER' :'user',
+        'HOST' : 'd2a7k5vdiees738nq7b0-a.oregon-postgres.render.com',
+        'PASSWORD' : 'UNMAbbeguydnKxKltIlSa7Y1nSpFAMLh',
         'PORT' : '5432',
         
     }
 }
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
+     
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -88,12 +94,15 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
 ]
 
-CSRF_COOKIE_DOMAIN = "localhost"
 CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:3000",
     "http://localhost:3000",
-    "http://localhost:8000",
-]
 
+]
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "Lax"
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
