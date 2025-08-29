@@ -1,0 +1,28 @@
+
+
+.container{
+    width: 300px;
+    margin: 30px auto;
+    align-items: center;
+}
+
+
+.inputs{
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    width: 80%;
+}
+
+
+.submitBtn{
+     /* width: 80px; */
+    padding: 10px 20px;
+    background-color: rgb(70, 70, 193);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

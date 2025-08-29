@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
-
+import styles from "./Login.module.css"
 
 axios.defaults.withCredentials = true; 
 
@@ -17,7 +17,7 @@ export default function Login(){
         const csrfToken =  Cookies.get('csrftoken')
         console.log(csrfToken)
         try {
-                const res = await axios.post('https://effective-guacamole-974wpj4v7grv2pjq-8000.app.github.dev/login/',{email, password},{
+                const res = await axios.post('http://127.0.0.1:8000/login/',{email, password},{
                     withCredentials : true,
                     headers : {
                         "Content-Type" : "application/json",
@@ -34,7 +34,7 @@ export default function Login(){
 
     const get_csrf = async () => {
             try{
-            const res = await axios.get('https://effective-guacamole-974wpj4v7grv2pjq-8000.app.github.dev/csrf/',{
+            const res = await axios.get('http://127.0.0.1:8000/csrf/',{
                 withCredentials : true
             })
             Cookies.set("csrftoken", res.data.csrfToken);
@@ -47,11 +47,11 @@ export default function Login(){
 
 
     return (
-        <div>
+        <div className={StyleSheet.container}>
             <h1>Login</h1>
-            <input type="text" placeholder="email" value={email}  onChange={(e) => setEmail(e.target.value) }/><br/>
-            <input type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
-            <button onClick={handleLogin}>Submit</button>
+            <input className={styles.inputs} type="text" placeholder="email or username" value={email}  onChange={(e) => setEmail(e.target.value) }/><br/>
+            <input className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
+            <button className = {styles.submitBtn} onClick={handleLogin}>Submit</button>
         </div>
     )
 }

@@ -1,0 +1,13 @@
+
+.card{
+    
+   width : 400px;
+    padding : 20px 30px;
+    margin-bottom: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;  /* removes default indent */
+}

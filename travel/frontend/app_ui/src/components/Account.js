@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
+import styles from './Account.module.css'
 
 axios.defaults.withCredentials = true; 
 
@@ -17,7 +18,7 @@ export default function Account(){
 
     const handSubmit = async () => {
         await get_csrf()
-        const csrfToken = await Cookies.get('csrftoken')
+        const csrfToken =  Cookies.get('csrftoken')
         console.log(csrfToken)
 
         try {
@@ -32,7 +33,9 @@ export default function Account(){
                 }
             }
         )
+        console.log("Created Account with status :" , res.status)
         navigate("/Login")
+
 
     }
     catch(error){
@@ -57,13 +60,18 @@ export default function Account(){
     },[]);
 
     return (
-        <div>
+        <div className="container">
         <h1>Create Account</h1>
-        <input type="text" placeholder="username" value={username}  onChange={(e) => setUsername(e.target.value) }/><br/>
-        <input type="email" placeholder="email" value={email}  onChange={(e) => setEmail(e.target.value) } /><br></br>
-        <input type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
-        <label>Recruiter</label><input type="checkbox"  onClick={(e) =>setRecruiter(e.target.checked) }></input><br></br>
-        <button onClick={handSubmit}>Submit</button>
+        <input  className={styles.inputs} type="text" placeholder="username" value={username}  onChange={(e) => setUsername(e.target.value) }/><br/>
+        <input   className={styles.inputs} type="email" placeholder="email" value={email}  onChange={(e) => setEmail(e.target.value) } /><br></br>
+        <input  className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
+         <div className={styles.checkbox}>
+       
+         <label>Recruiter</label>
+         <input  className={styles.check} type="checkbox"  onClick={(e) =>setRecruiter(e.target.checked) }></input><br></br>
+       
+       </div>
+        <button className={styles.submitBtn} onClick={handSubmit}>Submit</button>
        
         </div>
     )

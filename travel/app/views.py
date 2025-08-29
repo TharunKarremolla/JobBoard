@@ -13,7 +13,42 @@ import json
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import Jobs
 
+
+def fetch_jobs(request):
+    try :
+            jobs = list(Jobs.objects.all().values())
+            
+            return JsonResponse({"jobs" : jobs})
+    except :
+        return JsonResponse({"error" : "sdjfnas"},status = 400)
+
+
+def new_job(request):
+        
+
+        if request.user.is_authenticated:
+            user = User.objects.get(username = request.user.username)
+            if user.is_superuser:
+                print("super user")
+        
+                try:
+                    
+                    data = json.loads(request.body)
+                    title = data.get("Title")
+                    description = data.get("Description")
+                    salary = data.get("Salary")
+                    company = data.get("Company")
+                    location = data.get("Location")
+                    
+                    job = Jobs(title=title,description=description,salary=salary,company=company,Location=location)
+                    job.save()
+                    return JsonResponse({"message" : "request reached backend and created new job"})
+                except:
+                    return JsonResponse({"error": "Invalid JSON"}, status=400)
+            else:
+                return JsonResponse({'message' : 'Only recruiter can create job, users cannot'},status = 400)
 
 
 @csrf_protect

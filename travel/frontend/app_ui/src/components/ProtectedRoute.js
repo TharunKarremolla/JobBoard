@@ -1,38 +1,39 @@
 import { Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
 export default function ProtectedRoute({ children }) {
-  const [isAuth, setIsAuth] = useState(null);
+  const [authData, setAuthData] = useState({isAuth : null, user : null});
+  
 
   useEffect(() => {
     const verifyUser = async () => {
       try {
         const res = await axios.get(
-          "https://effective-guacamole-974wpj4v7grv2pjq-8000.app.github.dev/verify/",
+          "http://127.0.0.1:8000/verify/",
           { withCredentials: true }
         );
 
         if (res.data.authenticated) {
-          setIsAuth(true);
-          console.log("Verify response:", res.status, res.data);
+          setAuthData({isAuth : true, user : res.data.username});
+          console.log("Verify response:",  res.data);
 
         } else {
-          setIsAuth(false);
+          setAuthData({isAuth : false, user : res.data.username});
         }
       } catch (error) {
-        setIsAuth(false); // 401 or network error → not authenticated
+        setAuthData({isAuth : false, user : null}); // 401 or network error → not authenticated
       }
     };
 
     verifyUser();
   }, []);
 
-  if (isAuth === null) {
+  if (authData.isAuth === null) {
     return <h2>Checking authentication...</h2>; // loading screen
   }
 
-  return isAuth ? children : <Navigate to="/Login" replace />;
+  return authData.isAuth ? React.cloneElement(children, {user : authData.user }) : <Navigate to="/Login" replace />;
 }
