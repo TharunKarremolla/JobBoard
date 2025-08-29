@@ -15,6 +15,11 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Jobs
 
+def apply(request):
+    print("Raw Body " ,request.body.decode())
+
+    return JsonResponse({"message" : "in the function"})
+
 
 def fetch_jobs(request):
     try :

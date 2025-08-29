@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 export default function ProtectedRoute({ children }) {
   const [authData, setAuthData] = useState({isAuth : null, user : null});
   
-
+  console.log("authdata : ",authData)
   useEffect(() => {
     const verifyUser = async () => {
       try {
@@ -18,7 +18,7 @@ export default function ProtectedRoute({ children }) {
 
         if (res.data.authenticated) {
           setAuthData({isAuth : true, user : res.data.username});
-          console.log("Verify response:",  res.data);
+          console.log("Verify response1:",  res.data);
 
         } else {
           setAuthData({isAuth : false, user : res.data.username});

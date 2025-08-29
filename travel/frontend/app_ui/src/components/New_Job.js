@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css"
 
-export default function New_job(){
+export default function New_Job(){
     const [Title,setTitle] = useState('')
     const [Company,setCompany] = useState('')
     const [Description,setDescription] = useState('')
