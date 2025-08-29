@@ -1,3 +1,9 @@
 from django.db import models
 
 # Create your models here.
+class Jobs(models.Model):
+    title = models.CharField(max_length=100)
+    description =  models.CharField(max_length=200)
+    company =  models.CharField(max_length=100)
+    salary =  models.IntegerField()
+    Location = models.CharField(max_length=100)

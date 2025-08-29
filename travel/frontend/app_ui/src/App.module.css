@@ -1,0 +1,25 @@
+body{
+    margin:  0 ;
+    
+}
+
+.header{
+    background-color: rgb(70, 70, 193);
+    margin-top: 0px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.centered{
+    width: 350px;
+    margin: 50px auto;
+}
+
+footer{
+    margin-top: 23%;
+    text-align: center;
+    
+    background-color: rgb(70, 70, 193);
+    overflow: hidden;
+}
