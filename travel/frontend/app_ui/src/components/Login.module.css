@@ -3,7 +3,6 @@
 .container{
     width: 300px;
     margin: 30px auto;
-    align-items: center;
 }
 
 
@@ -17,12 +16,15 @@
 
 
 .submitBtn{
-     /* width: 80px; */
+
     padding: 10px 20px;
-    background-color: rgb(70, 70, 193);
+    background-color: rgb(33, 61, 224);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
+.submitBtn:hover{
+    background-color: rgb(129, 165, 233);
+}

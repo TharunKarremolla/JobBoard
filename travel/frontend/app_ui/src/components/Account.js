@@ -6,7 +6,7 @@ import styles from './Account.module.css'
 
 axios.defaults.withCredentials = true; 
 
-export default function Account(){
+export default function Account({ children }){
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
     const [email,setEmail] = useState('')
@@ -60,18 +60,22 @@ export default function Account(){
     },[]);
 
     return (
-        <div className="container">
-        <h1>Create Account</h1>
-        <input  className={styles.inputs} type="text" placeholder="username" value={username}  onChange={(e) => setUsername(e.target.value) }/><br/>
-        <input   className={styles.inputs} type="email" placeholder="email" value={email}  onChange={(e) => setEmail(e.target.value) } /><br></br>
-        <input  className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
-         <div className={styles.checkbox}>
-       
-         <label>Recruiter</label>
-         <input  className={styles.check} type="checkbox"  onClick={(e) =>setRecruiter(e.target.checked) }></input><br></br>
-       
-       </div>
-        <button className={styles.submitBtn} onClick={handSubmit}>Submit</button>
+        <div>
+            {children }
+            <div className={styles.accDiv}>
+                <h1>Create Account</h1>
+                <input  className={styles.inputs} type="text" placeholder="username" value={username}  onChange={(e) => setUsername(e.target.value) }/><br/>
+                <input   className={styles.inputs} type="email" placeholder="email" value={email}  onChange={(e) => setEmail(e.target.value) } /><br></br>
+                <input  className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
+                <div className={styles.checkbox}>
+                
+                    <label>Recruiter</label>
+                    <input  className={styles.check} type="checkbox"  onClick={(e) =>setRecruiter(e.target.checked) }></input><br></br>
+                
+                </div>
+                <button className={styles.submitBtn} onClick={handSubmit}>Submit</button>
+            </div>
+        
        
         </div>
     )

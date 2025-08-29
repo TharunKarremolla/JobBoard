@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useNavigate  } from "react-router-dom";
+import styles from "./Layout.module.css"
+import React from "react";
 
-export default function Layout(){
+export default function Layout( {children , user}){
 
     const navigate = useNavigate()
  const handleLogout = async () => {
@@ -26,8 +28,12 @@ export default function Layout(){
 
     return (
         <div>
-            <h1>LinkedIn</h1>
-            <button onClick={handleLogout}>Logout</button>
+          <nav className={styles.navbar}>
+                <h1 className={styles.appname}>LinkedIn</h1>
+                <button onClick={handleLogout}>Logout</button>
+            </nav>
+          
+            {React.cloneElement(children , {user})}
         </div>
     )
 }

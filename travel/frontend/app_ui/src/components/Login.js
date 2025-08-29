@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
@@ -6,8 +6,7 @@ import styles from "./Login.module.css"
 
 axios.defaults.withCredentials = true; 
 
-export default function Login(){
-    const [username,setUsername] = useState('')
+export default function Login({children}){
     const [password,setPassword] = useState('')
     const [email,setEmail] = useState('')
     const navigate = useNavigate();
@@ -47,11 +46,14 @@ export default function Login(){
 
 
     return (
-        <div className={StyleSheet.container}>
-            <h1>Login</h1>
-            <input className={styles.inputs} type="text" placeholder="email or username" value={email}  onChange={(e) => setEmail(e.target.value) }/><br/>
-            <input className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
-            <button className = {styles.submitBtn} onClick={handleLogin}>Submit</button>
+        <div >
+           {children}
+           <div className={styles.container}>
+                <h1>Login</h1>
+                <input className={styles.inputs} type="text" placeholder="email or username" value={email}  onChange={(e) => setEmail(e.target.value) }/><br/>
+                <input className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
+                <button className = {styles.submitBtn} onClick={handleLogin}>Submit</button>
+            </div>
         </div>
     )
 }

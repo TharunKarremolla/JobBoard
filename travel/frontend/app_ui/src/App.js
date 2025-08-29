@@ -6,9 +6,9 @@ import Home from './components/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import Jobs from './components/Jobs';
 import styles from './App.module.css';
-import New_job from './components/New_job';
-import Logout from './components/Logout';
-
+import New_job from './components/New_Job';
+import Layout from './components/Layout';
+import ApplyJob from './components/ApplyJob';
 
 function App() {
  
@@ -20,27 +20,45 @@ function App() {
         <Routes>
           {/* public pages */}
           <Route path='/' element={<Main />}></Route>
-          <Route path='/Login' element={<Login />}></Route>
-          <Route path='/Account' element= { <Account />}></Route>
+          <Route path='/Login' element={
+            <Login>
+              <Main.Block1 />
+              </Login>
+            }></Route>
+          <Route path='/Account' element= { 
+            <Account>
+              <Main.Block1></Main.Block1>
+            </Account>
+              }></Route>
            {/* protected pages */}
           <Route path='/Jobs' element={
                 <ProtectedRoute>
+                  <Layout>
                   <Jobs />
+                  </Layout>
                 </ProtectedRoute>
                 }>
           </Route>
-          <Route path='/Logout' element={<Logout />}></Route>
+  
           <Route path="/Home"  element={
             <ProtectedRoute>
+              <Layout>
               <Home />
+              </Layout>
             </ProtectedRoute>
           }/>
          <Route  path="/New_job" element={
               <ProtectedRoute>
+                <Layout>
                 <New_job />
+                </Layout> 
               </ProtectedRoute>
               }
               />
+
+          <Route path='/ApplyJob' element={<ApplyJob />}>
+
+          </Route>
          </Routes>
        
       </Router>
