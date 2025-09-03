@@ -9,6 +9,7 @@ import styles from './App.module.css';
 import New_job from './components/New_Job';
 import Layout from './components/Layout';
 import ApplyJob from './components/ApplyJob';
+import Profile from './components/Profile';
 
 function App() {
  
@@ -58,6 +59,14 @@ function App() {
 
           <Route path='/ApplyJob' element={<ApplyJob />}>
 
+          </Route>
+          <Route path="/Profile"  element = {
+            <ProtectedRoute>
+               <Layout>
+              <Profile />  
+              </Layout>
+            </ProtectedRoute>}>
+           
           </Route>
          </Routes>
        

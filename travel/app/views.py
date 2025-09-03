@@ -13,12 +13,47 @@ import json
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Jobs
+from .models import Jobs,Application,Profile
+
+@csrf_protect
+def upload_profile(request):
+    print("hello")
+    if request.method == 'POST' and request.FILES.get('profilePic'):
+        
+        profile, created = Profile.objects.get_or_create(user = request.user)
+        profile.pic = request.FILES['profilePic']
+        profile.save()
+        
+        print("Saved file:", profile.pic)  
+        return JsonResponse({'profile' : profile.pic.url})
+    return JsonResponse({'error' : 'No file uploaded'},status = 400)
+
+def fetch_user(request):
+    try :
+        user = request.user 
+        user =  User.objects.filter(id = user.id).values().first()
+        profile = Profile.objects.filter(user_id = user.id).first()
+        print(profile)
+        profile_pic_url = profile.pic.url if profile.pic else None
+        return JsonResponse({"user" : user,"profile_pic": profile_pic_url})
+    except:
+        return JsonResponse({"error" : "User not found"},status=404)
+
+def appied_Jobs(request):
+    user = User.objects.get(username = request.user)
+    applied = list(Application.objects.filter(user_id = user.id).values())
+    return JsonResponse({'applied' : applied})
+
 
 def apply(request):
     print("Raw Body " ,request.body.decode())
-
-    return JsonResponse({"message" : "in the function"})
+    user = User.objects.get(username = request.user)
+    data = json.loads(request.body)
+    job_id = data.get('jobId')
+    apply = Application(job_id=job_id,user_id = user.id)
+    apply.save()
+    applied = list(Application.objects.filter(user_id = user.id).values())
+    return JsonResponse({"applied" : applied,"jobId" : job_id})
 
 
 def fetch_jobs(request):

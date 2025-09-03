@@ -13,8 +13,13 @@ class Jobs(models.Model):
     posted_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name="job", default=1)
 
 class Application(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user")
-    job = models.ForeignKey(Jobs,on_delete=models.CASCADE,related_name="job")
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_id")
+    job = models.ForeignKey(Jobs,on_delete=models.CASCADE,related_name="job_id")
     applied_on = models.DateTimeField(auto_now_add=True)
+
+class Profile(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
+    pic = models.ImageField(upload_to='profile_pics/',blank=True,null=True)
+    bio = models.TextField(blank=True,null=True)
 
     
