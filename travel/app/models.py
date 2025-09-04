@@ -16,10 +16,16 @@ class Application(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_id")
     job = models.ForeignKey(Jobs,on_delete=models.CASCADE,related_name="job_id")
     applied_on = models.DateTimeField(auto_now_add=True)
+    
 
 class Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
     pic = models.ImageField(upload_to='profile_pics/',blank=True,null=True)
     bio = models.TextField(blank=True,null=True)
 
-    
+
+class Messages(models.Model):
+    sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name='sender')
+    receiver = models.ForeignKey(User,on_delete=models.CASCADE,related_name='receiver')
+    message = models.CharField()
+

@@ -10,6 +10,8 @@ import New_job from './components/New_Job';
 import Layout from './components/Layout';
 import ApplyJob from './components/ApplyJob';
 import Profile from './components/Profile';
+import Inbox from './components/Inbox';
+import Message from './components/Message';
 
 function App() {
  
@@ -65,8 +67,23 @@ function App() {
                <Layout>
               <Profile />  
               </Layout>
-            </ProtectedRoute>}>
-           
+            </ProtectedRoute>}>          
+          </Route>
+
+          <Route path="/Inbox"  element = {
+            <ProtectedRoute>
+               <Layout>
+              <Inbox />  
+              </Layout>
+            </ProtectedRoute>}>          
+          </Route>
+
+          <Route path="/Message"  element = {
+            <ProtectedRoute>
+               <Layout>
+              <Message />  
+              </Layout>
+            </ProtectedRoute>}>          
           </Route>
          </Routes>
        

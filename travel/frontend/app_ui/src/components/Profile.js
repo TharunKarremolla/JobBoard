@@ -27,11 +27,11 @@ export default function Profile() {
 const fetch_users = async () => {
     try {
       const res = await axios.get("http://127.0.0.1:8000/users/");
-      console.log(res.data);
       setData(res.data.user);
-      if (res.data.user.profile_pic) {
+      setBio(res.data.bio)
+      if (res.data.profile_pic) {
         console.log("profile already set")
-        setProfilePic(res.data.user.profile_pic); // set from backend
+        setProfilePic(res.data.profile_pic); // set from backend
       }
     } catch (error) {
       console.log("error", error);
@@ -73,6 +73,18 @@ const fetch_users = async () => {
     }
   };
 
+  const addBio = async() => {
+    await getCSRFToken();
+    const csrfToken = Cookies.get('csrftoken')
+    const res = await axios.post("http://127.0.0.1:8000/addBio/",{bio},{
+      withCredentials : true,
+      headers : {
+          "Content-Type" : "application/json",
+            "X-CSRFToken": csrfToken,
+      }
+    })
+    
+  }
 
 
 
@@ -111,9 +123,11 @@ const fetch_users = async () => {
       <input
         type="text"
         placeholder="Bio..."
-        value={bio}
+        value={bio || ""}
         onChange={(e) => setBio(e.target.value)}
       />
+      <br />
+      <button onClick={addBio}>Edit Bio</button>
       <br />
 
       <input type="file" onChange={handleFileChange} />

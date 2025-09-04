@@ -13,7 +13,29 @@ import json
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Jobs,Application,Profile
+from .models import Jobs,Application,Profile,Messages
+
+
+def send_message(request):
+    data = json.loads(request.body)
+    receiver = data.get('receiver')
+    message = data.get('message')
+    message = Messages(sender_id = request.user.id,receiver_id = receiver,message = message)
+    message.save()
+    return JsonResponse({'output' : "message sent successfully" })
+
+
+def fetch_all_users(request):
+    users = list(User.objects.all().values())
+    return JsonResponse({"users" : users})
+
+
+def addBio(request):
+    profile = Profile.objects.filter(user_id = request.user.id).first()
+    data = json.loads(request.body)
+    profile.bio =data.get('bio',profile.bio)
+    profile.save()
+    return JsonResponse({"message" : "updated bio"})
 
 @csrf_protect
 def upload_profile(request):
@@ -30,12 +52,12 @@ def upload_profile(request):
 
 def fetch_user(request):
     try :
-        user = request.user 
-        user =  User.objects.filter(id = user.id).values().first()
-        profile = Profile.objects.filter(user_id = user.id).first()
+        requested_user = request.user 
+        user =  User.objects.filter(id = requested_user.id).values().first()
+        profile = Profile.objects.filter(user_id = requested_user.id).first()
         print(profile)
         profile_pic_url = profile.pic.url if profile.pic else None
-        return JsonResponse({"user" : user,"profile_pic": profile_pic_url})
+        return JsonResponse({"user" : user,"profile_pic": profile_pic_url,"bio" : profile.bio})
     except:
         return JsonResponse({"error" : "User not found"},status=404)
 
