@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import styles from "./Message.module.css";
 import Cookies from 'js-cookie';
 import axios from "axios";
@@ -7,10 +7,29 @@ import axios from "axios";
 export default function Message() {
     const [message,setMessage] = useState('')
     const location = useLocation();
-    const { user } = location.state || {};
-    
+    const { user,current_user } = location.state || {};
+    const [old_msgs,setOldMsgs] = useState([])
+   
+
+    const display_Msgs = async() => {
+        const res = await axios.get('http://127.0.0.1:8000/display_Msgs/',{ params : {receiver : user.id}})
+
+        setOldMsgs(res.data.output)
+    }
+   useEffect(() => {
+    display_Msgs(); 
+
+    const interval = setInterval(() => {
+      display_Msgs(); // fetch every 3 seconds
+    }, 3000);
+
+    return () => clearInterval(interval); // cleanup
+  }, [user.id]);
 
     const handleSend = async(receiver) => {
+        if (message.trim() === ""){
+            return;
+        }
         try {
         await get_csrf();
         const csrfToken = Cookies.get('csrftoken')
@@ -21,7 +40,8 @@ export default function Message() {
                         "X-CSRFToken": csrfToken,
                     }
         } )
-        
+        display_Msgs();
+        setMessage("")
     }catch(error){
         console.log("errorrr : ",error)
     }}
@@ -39,6 +59,11 @@ export default function Message() {
 
         }}
 
+        const handleChange = async(e) =>{
+            setMessage(e.target.value)
+
+        }
+
     return (
     <div className={styles.msgsDiv}>
         <h1>Messages</h1>
@@ -52,8 +77,22 @@ export default function Message() {
                 </>
             )
           }
-          <input type="text" placeholder="send message" value={message} onChange={(e) => setMessage(e.target.value)} />
-          <button onClick={() => handleSend(user.id)}>send</button>
+
+          {old_msgs && <ul>{old_msgs.map((msg) => (
+            <div key = {msg.id} >
+                <li className={styles.time}>{msg.timestamp.slice(11,16)}</li>
+            <li className={`${current_user === msg.sender_id ? styles.sender : styles.receiver}`}>{msg.message}</li>
+            
+            
+            </div>
+          ))}</ul>
+
+          }
+
+          {/* <div className={styles.sendDiv}> */}
+          <input className={styles.inputmsg} type="text"  placeholder="send message" value={message} onChange={(e) => setMessage(e.target.value)} />
+          <button  className={styles.sendButton} onClick={() => {handleSend(user.id); display_Msgs(user.id); }}>Send</button>
+          {/* </div> */}
     </div>
     )
 }

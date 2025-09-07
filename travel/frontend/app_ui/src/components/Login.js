@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.css"
+import styles from "./Login.module.css";
+import { Link } from "react-router-dom";
 
 axios.defaults.withCredentials = true; 
 
@@ -10,11 +11,12 @@ export default function Login({children}){
     const [password,setPassword] = useState('')
     const [email,setEmail] = useState('')
     const navigate = useNavigate();
+    const [Error,setError] = useState('')
     
     const handleLogin = async ()=>{
         get_csrf()
         const csrfToken =  Cookies.get('csrftoken')
-        console.log(csrfToken)
+     
         try {
                 const res = await axios.post('http://127.0.0.1:8000/login/',{email, password},{
                     withCredentials : true,
@@ -27,7 +29,8 @@ export default function Login({children}){
                 navigate("/Home")
             }
         catch(error){
-            console.log("error : ",error)
+              setError(error.response.data.error)
+            console.log("error : ",Error)
         }
     }
 
@@ -37,7 +40,7 @@ export default function Login({children}){
                 withCredentials : true
             })
             Cookies.set("csrftoken", res.data.csrfToken);
-        console.log("CSRF set:", res.data.csrfToken);
+      console.log("csrf ::",res.data.csrfToken)
         
         }catch(error){
             console.log("csrf error" , error)
@@ -49,10 +52,11 @@ export default function Login({children}){
         <div >
            {children}
            <div className={styles.container}>
-                <h1>Login</h1>
+                <h1 className={styles.header}>Login</h1>
                 <input className={styles.inputs} type="text" placeholder="email or username" value={email}  onChange={(e) => setEmail(e.target.value) }/><br/>
                 <input className={styles.inputs} type="password" placeholder="password"  value={password}  onChange={(e) => setPassword(e.target.value) } /><br></br>
-                <button className = {styles.submitBtn} onClick={handleLogin}>Submit</button>
+                {Error && <><p>{Error}</p><Link to="/Account">Create Account</Link><br></br></>}
+                <button className = {styles.submitBtn} onClick={handleLogin}>Sign in</button>
             </div>
         </div>
     )

@@ -68,14 +68,15 @@ WSGI_APPLICATION = 'travel.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+#postgresql://linkedin_mhnd_user:NYIFUaPbCn1MrUawSLpYv1kXlMfeu0Pc@dpg-d2u60eje5dus73eelv40-a.oregon-postgres.render.com/linkedin_mhnd
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb_krid',
-        'USER' :'user',
-        'HOST' : 'd2a7k5vdiees738nq7b0-a.oregon-postgres.render.com',
-        'PASSWORD' : 'UNMAbbeguydnKxKltIlSa7Y1nSpFAMLh',
+        'NAME': 'linkedin_mhnd',
+        'USER' : 'linkedin_mhnd_user',
+        'HOST' : 'dpg-d2u60eje5dus73eelv40-a.oregon-postgres.render.com',
+        'PASSWORD' : 'NYIFUaPbCn1MrUawSLpYv1kXlMfeu0Pc',
         'PORT' : '5432',
         
     }
@@ -129,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

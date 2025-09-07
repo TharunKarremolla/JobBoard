@@ -1,0 +1,27 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+}
+
+.container{
+    width : 400px;
+    margin: 30px auto;
+    
+}
+
+.inputs{
+    width: 70%;
+}
+
+button{
+      padding: 10px 20px;
+   background-color:  #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.errors{
+    color: rgb(248, 24, 24);
+}

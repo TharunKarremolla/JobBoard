@@ -8,7 +8,6 @@ import Jobs from './components/Jobs';
 import styles from './App.module.css';
 import New_job from './components/New_Job';
 import Layout from './components/Layout';
-import ApplyJob from './components/ApplyJob';
 import Profile from './components/Profile';
 import Inbox from './components/Inbox';
 import Message from './components/Message';
@@ -59,9 +58,6 @@ function App() {
               }
               />
 
-          <Route path='/ApplyJob' element={<ApplyJob />}>
-
-          </Route>
           <Route path="/Profile"  element = {
             <ProtectedRoute>
                <Layout>

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useNavigate  } from "react-router-dom";
 import styles from "./Layout.module.css"
 import React from "react";
+import logout from './logout.png'
 
 export default function Layout( {children , user}){
 
@@ -30,7 +31,10 @@ export default function Layout( {children , user}){
         <div>
           <nav className={styles.navbar}>
                 <h1 className={styles.appname}>LinkedIn</h1>
-                <button onClick={handleLogout}>Logout</button>
+                <div className={styles.logout}>
+                <a onClick={handleLogout}><img src={logout}  width={15}/>Logout</a>
+                </div>
+               
             </nav>
           
             {React.cloneElement(children , {user})}

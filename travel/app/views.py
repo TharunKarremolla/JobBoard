@@ -14,6 +14,13 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Jobs,Application,Profile,Messages
+from django.utils import timezone
+
+def display_Msgs(request):
+    receiver = request.GET.get('receiver')
+    messages = list(Messages.objects.filter(Q(sender_id = request.user.id,receiver_id = receiver) | Q(sender_id = receiver,receiver_id = request.user.id)).order_by("timestamp").values())
+    
+    return JsonResponse({'output' : messages})
 
 
 def send_message(request):
@@ -26,8 +33,9 @@ def send_message(request):
 
 
 def fetch_all_users(request):
-    users = list(User.objects.all().values())
-    return JsonResponse({"users" : users})
+    search = request.GET.get('search')
+    users = list(User.objects.filter(username__icontains= search).values())
+    return JsonResponse({"users" : users,'current_user' : request.user.id})
 
 
 def addBio(request):
@@ -51,6 +59,7 @@ def upload_profile(request):
     return JsonResponse({'error' : 'No file uploaded'},status = 400)
 
 def fetch_user(request):
+    print(request.user)
     try :
         requested_user = request.user 
         user =  User.objects.filter(id = requested_user.id).values().first()
@@ -89,7 +98,7 @@ def fetch_jobs(request):
 
 def new_job(request):
         
-
+        print(request.body.decode())
         if request.user.is_authenticated:
             user = User.objects.get(username = request.user.username)
             if user.is_superuser:
@@ -100,22 +109,22 @@ def new_job(request):
                     data = json.loads(request.body)
                     title = data.get("Title")
                     description = data.get("Description")
-                    salary = data.get("Salary")
                     company = data.get("Company")
+                    salary = int(data.get("Salary"))
                     location = data.get("Location")
                     
-                    job = Jobs(title=title,description=description,salary=salary,company=company,Location=location)
+                    job = Jobs(title=title,description=description,salary = salary,company=company,location=location)
                     job.save()
-                    return JsonResponse({"message" : "request reached backend and created new job"})
+                    return JsonResponse({"message" : "Created New JOb Post"})
                 except:
                     return JsonResponse({"error": "Invalid JSON"}, status=400)
             else:
-                return JsonResponse({'message' : 'Only recruiter can create job, users cannot'},status = 400)
+                return JsonResponse({'message' : 'Job seekers cannot post Job'},status = 400)
 
 
 @csrf_protect
 def create_account(request):
-    
+    print(request.body.decode())
     if request.method == 'POST':
          
         try :
@@ -124,13 +133,12 @@ def create_account(request):
             email = data.get("email")
             password = data.get("password")
             is_recruiter = data.get("is_recruiter")
+            print(type(is_recruiter))
             user = User.objects.create_user(username=username,email=email,password=password)
             user.is_superuser = is_recruiter
             user.save()
         except:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
-
-
          
     return JsonResponse({'message': 'account created successfully'})
 
@@ -163,7 +171,7 @@ def verify_password(request):
             username = user.username
             
         except:
-            return JsonResponse({"error": "user not found"}, status=400)
+            return JsonResponse({"error": "User Doesn't Exist"}, status=400)
         
         user = authenticate(request,username = username,password = password)
         

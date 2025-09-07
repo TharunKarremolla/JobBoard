@@ -62,7 +62,7 @@ export default function Jobs(){
 }
     return (
         <div className={styles.jobsDiv}>
-        <h1>All Jobs Posting </h1>
+       
         
         <ul>
         {jobs.map(job => {
@@ -71,8 +71,8 @@ export default function Jobs(){
             return (
            <li key={job.id} className={styles.card}>
                 <h3>{job.title}</h3>
-                <p><b>Company</b> : {job.company}</p>
-                <p>{job.description}</p>
+                <p>Company : {job.company}</p>
+                <p>Description : {job.description}</p>
                 <p>Salary : ${job.salary}</p>
                 <p>{job.loxation}</p>
                 {/* { (click&&isApplied)  && <p >Already Applied.</p> } */}

@@ -26,7 +26,7 @@ export default function Profile() {
   // fetch user data
 const fetch_users = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/users/");
+      const res = await axios.get("http://127.0.0.1:8000/user/");
       setData(res.data.user);
       setBio(res.data.bio)
       if (res.data.profile_pic) {
